@@ -1,0 +1,37 @@
+import graphviz
+
+# Create a new Graph
+dot = graphviz.Digraph(format='png', engine='dot')
+
+# Nodes - Define the process steps
+dot.node('A', 'Tim Outlet\nMelakukan Pemeriksaan Bahan Baku')
+dot.node('B', 'Tim Outlet\nForecasting Kebutuhan Berdasarkan Data Penjualan')
+dot.node('C', 'Warehouse\nMenerima Permintaan Barang')
+dot.node('D', 'Warehouse\nMemeriksa Ketersediaan Bahan Baku')
+dot.node('E', 'Warehouse\nStok Bahan Baku Habis')
+dot.node('F', 'Warehouse\nMengirim Permintaan Barang ke Supplier')
+dot.node('G', 'Supplier\nMengirimkan Barang')
+dot.node('H', 'Logistics\nMenerima Barang')
+dot.node('I', 'Logistics\nMemeriksa Kesesuaian Barang')
+
+# Define edges (transitions between process steps)
+dot.edge('A', 'B', label='Melakukan pemeriksaan')
+dot.edge('B', 'C', label='Mengirim Permintaan ke Gudang')
+dot.edge('C', 'D', label='Menerima Permintaan')
+dot.edge('D', 'E', label='Memeriksa Ketersediaan')
+dot.edge('E', 'F', label='Stok Habis')
+dot.edge('F', 'G', label='Mengirim Permintaan ke Supplier')
+dot.edge('G', 'H', label='Menerima Barang')
+dot.edge('H', 'I', label='Memeriksa Kesesuaian Barang')
+
+# Handling scenarios
+dot.edge('I', 'J', label='Barang Sesuai')
+dot.node('J', 'Barang Disimpan di Freezer')
+dot.edge('I', 'K', label='Barang Tidak Sesuai')
+dot.node('K', 'Mengirimkan Permintaan Barang yang Tidak Sesuai')
+
+# Render the graph
+dot.render('supply_barang_bpmn')
+
+# View the generated diagram
+dot.view()
